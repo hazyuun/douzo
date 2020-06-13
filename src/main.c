@@ -1,30 +1,66 @@
 #include "douzo.h"
+#include <stdbool.h>
 #include <unistd.h>
 #include <stdio.h>
+#include <stdlib.h>
 
-// #define _PRINT_REQUESTS_
-#define PORT 8080
+
+bool 	PRINT_REQUESTS 	= false;
+int 	PORT 			= 8080;
+
+
+#define NORMAL 		"\e[0m"
+#define ERROR 		"\e[1;31m"
+#define WARNING 	"\e[1;33m"
+#define SUCCESS 	"\e[1;32m"
+#define HIGHLIGHT 	"\e[1;36m"
 
 int main(int argc, char** argv){
-	
-	printf("> Starting server .. \n");
+   int option;
+   while((option = getopt(argc, argv, ":rp:h")) != -1){
+      switch(option){
+         case 'r':
+         	PRINT_REQUESTS = true;
+            printf(HIGHLIGHT"NOTE : Requests will be printed\n");
+            break;
+         case 'p':
+            PORT = atoi(optarg);
+			if(PORT < 1024 || PORT > 65535){
+				printf(ERROR"> Invalid port !");
+				return 1;	
+			}
+            break;
+         case ':':
+            printf(ERROR"Please specify the port after -%c\n", optopt);
+            return 1;
+            break;
+         case 'h':
+         case '?': 
+            printf(NORMAL"Usage: %s [-r] [-p port]\n", argv[0]);
+            printf("\t-r : Print http requests\n");
+            printf("\t-p : Use the specified port instead of default value (8080)\n");
+         	return 1;
+            break;
+      }
+   }
+	printf(NORMAL"> Starting server .. \n");
 	
 	int* socket = init_at(PORT);
 	if(!socket){
-		fprintf(stderr, "<!> Server didn't start !\n");
+		fprintf(stderr, ERROR"<!> Server didn't start !\n");
 		return 1;
 	} 
-	printf("> Server is up ! \n");
+	printf(SUCCESS"> Server is up ! \n");
 	
 	
-	printf("> Listening at %d\n", PORT);
-	
+	printf(HIGHLIGHT"> Listening at %d\n", PORT);
+	printf(NORMAL"\n");
 	int client;
 	while(1){	
 		REQUEST* req = wait_req(socket, &client);
 		if(!req) continue;
 		
-		#ifdef _PRINT_REQUESTS_ /* For debugging purposes */
+		if(PRINT_REQUESTS){ /* For debugging purposes */
 			printf("\n***\nMethod: %s\nRoute: %s\nHTTP version: %s\n",
 				req->method,
 				req->route,
@@ -32,13 +68,13 @@ int main(int argc, char** argv){
 			);
 			HEADERS* header = req->headers;
 			while(header){
-				printf("%16s : %s\n",
+				printf(HIGHLIGHT"%32s :"NORMAL" %s\n",
 					header->name,
 					header->value
 				);
 				header = header->next_header;
 			}
-		#endif
+		}
 				
 		handle_req(client, req);
 	}
