@@ -13,5 +13,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: create bin directory
+      run: mkdir bin
     - name: compile
       run: gcc src/*.c -o bin/douzo
