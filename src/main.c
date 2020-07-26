@@ -3,7 +3,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <pthread.h>
 
 bool 	PRINT_REQUESTS 	= false;
 int 	PORT 			= 8080;
@@ -14,6 +14,7 @@ int 	PORT 			= 8080;
 #define WARNING 	"\e[1;33m"
 #define SUCCESS 	"\e[1;32m"
 #define HIGHLIGHT 	"\e[1;36m"
+
 
 int main(int argc, char** argv){
    int option;
@@ -75,8 +76,14 @@ int main(int argc, char** argv){
 				header = header->next_header;
 			}
 		}
-				
-		handle_req(client, req);
+		
+		struct handle_req_args_t args;
+		args.client = client;
+		args.req = req;
+		
+		pthread_t thread;
+		pthread_create(&thread, NULL, &handle_req_threaded, (void*)(&args));
+		pthread_join(thread, NULL);
 	}
 	return 0;	
 }

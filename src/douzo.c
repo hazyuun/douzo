@@ -109,3 +109,8 @@ void handle_req(int sock_fd, REQUEST* req){
 	send(sock_fd, res, strlen(res), 0);
 }
 
+void* handle_req_threaded(void* args){
+	struct handle_req_args_t* a = (struct handle_req_args_t*) args;
+	handle_req(a->client, a->req);
+	return NULL;
+}

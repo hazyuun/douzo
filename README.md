@@ -4,7 +4,7 @@ A simple HTTP server written in C
 ## Compiling
 ```console
 $ mkdir bin
-$ gcc src/*.c -o bin/douzo
+$ gcc src/*.c -o bin/douzo -lpthread
 ```
 ## Usage
 ```console

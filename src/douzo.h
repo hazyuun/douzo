@@ -24,4 +24,11 @@ char* get_file(char* path);
 /* Takes a parsed request, handles it and send the response */
 void handle_req(int sock_fd, REQUEST* req);
 
+struct handle_req_args_t{
+	int 		client;
+	REQUEST* 	req;	
+};
+
+void* handle_req_threaded(void* args);
+
 #endif
