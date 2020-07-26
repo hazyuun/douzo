@@ -16,4 +16,4 @@ jobs:
     - name: create bin directory
       run: mkdir bin
     - name: compile
-      run: gcc src/*.c -o bin/douzo
+      run: gcc src/*.c -o bin/douzo -lpthread
