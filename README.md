@@ -16,11 +16,11 @@ Usage: ./bin/main [-r] [-p port]
 ```console
 $ ./bin/douzo -p 5600 
 ```
+This will serve the pages that are in current working directory.
 When the server is up, you can test it by visiting `http://localhost:5600/somepage.html` in your browser.
-Currently the pages must be in the same directory, but it will be changed in the future.
 
 ## TODO
-* [ ] Add the possibility to set custom folder
+* [ ] Add the possibility to specify the directory to serve (with arguments)
 * [ ] Support the other methods (POST, PUT, etc..)
 * [ ] Support the other HTTP headers
 * [ ] Add a GUI
