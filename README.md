@@ -1,5 +1,5 @@
 # douzo
-![C/C++ CI](https://github.com/A-Rain-Lover/douzo/workflows/C/C++%20CI/badge.svg) <br />
+![C/C++ CI](https://github.com/computer-spectre/douzo/workflows/C/C++%20CI/badge.svg) <br />
 A simple HTTP server written in C
 ## Compiling
 ```console
