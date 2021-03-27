@@ -6,7 +6,7 @@
 
 #define _404_page "<h1>404 Not Found</h1>" \
 				  "<hr />"\
-				  "<p>Douzo server | made by A-Rain-Lover (Yuun)</p>"
+				  "<p>Douzo server</p>"
 
 /* Creates a socket, binds it, and listens at the given port. */
 /* Returns a file descriptor to that socket. 				 */
